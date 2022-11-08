@@ -4,7 +4,7 @@ using namespace std;
 #include "controller.h"
 
 //IMPLEMENT the functionf from controller.h down here
-double Controller::evalInput(double t) {
+double Controller::eval_input(double t) {
     /*
     Solve for and return control input
     */
@@ -12,7 +12,7 @@ double Controller::evalInput(double t) {
     return u;
 }
 
-double Controller::getInput() {
+double Controller::get_input() {
     return u; 
 }
 

@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 #include "environment.h"
-
+#include <NumCpp.hpp>
 
 //Implement our environment functions
 void Environment::reset() {
@@ -17,9 +17,9 @@ void Environment::reset() {
     xObsv = 0; //reset observer state
 
     //define history arrays
-    xHist = 0;
-    uHist = 0;
-    tHist = 0;
+    xHist = nc::zeros<double>(dynamics.stateDimn, 1);
+    uHist = nc::zeros<double>(dynamics.inputDimn, 1);
+    tHist = nc::zeros<double>(1, 1);
 }
 
 void Environment::step() {
@@ -42,32 +42,22 @@ void Environment::step() {
 }
 
 void Environment::updateData() {
-    /* 
-    """
-        Update history arrays and deterministic state data
-        """
-        #append the input, time, and state to their history queues
-        self.xHist[:, self.iter] = self.x.reshape((self.dynamics.stateDimn, ))
-        self.uHist[:, self.iter] = (self.controller.get_input()).reshape((self.dynamics.inputDimn, ))
-        self.tHist[:, self.iter] = self.t
-        
-        #update the actual state of the system
-        self.x = self.dynamics.get_state()
-        
-        #update the number of iterations of the step function
-        self.iter +=1
-    */
-    double xHist; 
-    double uHist; 
-    double tHist; 
+    //update the history arrays
+    xHist = nc::hstack({xHist, x}); 
     
-    double x; 
+    uHist = nc::hstack({uHist, controller.get_input()});
+    
+    //place t in an intermediate array to hstack correctly
+    nc::NdArray<double> tTemp = {t};
+    tHist = nc::hstack({tHist, tTemp});
+    
+    x = dynamics.get_state();
 
-    int iter;  
+    iter++;
 }
 
 void Environment::getObservation() {
-    int xObsv 
+    xObsv = observer.get_state();
 }
 
 int Environment::getReward() {

@@ -1,4 +1,6 @@
 #include <iostream>
+#include <NumCpp.hpp>
+
 using namespace std;
 
 class Dynamics {       // The class
@@ -9,9 +11,9 @@ class Dynamics {       // The class
     int relDegree;
 
     //current state and input
-    double x;
-    double u;
-    Dynamics(double x0, int stateDim, int inputDim, int relDeg) {     // Constructor
+    nc::NdArray<double> _x;
+    nc::NdArray<double> _u;
+    Dynamics(nc::NdArray<double> x0, int stateDim, int inputDim, int relDeg) {     // Constructor
       /*
       Initializes a dynamics object
       */
@@ -20,14 +22,14 @@ class Dynamics {       // The class
       relDegree = relDeg;
 
       //store the state and input
-      x = x0;
-      u = 0;
+      _x = x0;
+      _u = nc::zeros<double>(stateDimn, 1);
     }
         
     //Declare dynamics functions
-    int get_state();
-    double deriv(double x, double u, double t);
-    double integrate(double u, double t, double dt);
-    void get_plots(double x, double u, double t);
-    void show_animation(double xHist, double uHist, double tHist); 
+    nc::NdArray<double> get_state();
+    nc::NdArray<double> deriv(nc::NdArray<double> x, nc::NdArray<double> u, double t);
+    nc::NdArray<double> integrate(nc::NdArray<double> u, double t, double dt);
+    void get_plots(nc::NdArray<double> xHist, nc::NdArray<double> uHist, nc::NdArray<double> tHist);
+    void show_animation(nc::NdArray<double> xHist, nc::NdArray<double> uHist, nc::NdArray<double> tHist); 
 };

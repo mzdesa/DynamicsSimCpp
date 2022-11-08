@@ -1,4 +1,5 @@
 #include <iostream>
+#include <NumCpp.hpp>
 using namespace std;
 
 class MyClass {       // The class

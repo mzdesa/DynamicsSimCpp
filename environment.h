@@ -1,4 +1,5 @@
 #include <iostream>
+#include <NumCpp.hpp>
 #include "dynamics.h"
 #include "controller.h"
 #include "observer.h"
@@ -19,10 +20,10 @@ class Environment {
     bool done; //bool is true or false variable 
 
     //Store system state
-    double x; //actual state of the system (arrays should be set as double)
-    double x0; //initial condition for system
-    double xObsv; //state as read by the observer
-    double ptCloud; //point cloud state as read by vision
+    nc::NdArray<double> x; //actual state of the system (arrays should be set as double)
+    nc::NdArray<double> x0; //initial condition for system
+    nc::NdArray<double> xObsv; //state as read by the observer
+    nc::NdArray<double> ptCloud; //point cloud state as read by vision
     
     //Define simulation parameters
     int simFreq; //integration frequency in Hz
@@ -31,9 +32,9 @@ class Environment {
     double totalSimTime;; //total simulation time in s
     
     //Define history arrays
-    double xHist;
-    double uHist; //np.zeros((self.dynamics.inputDimn, self.TOTAL_SIM_TIME*self.CONTROL_FREQ))
-    double tHist; //np.zeros((1, self.TOTAL_SIM_TIME*self.CONTROL_FREQ))
+    nc::NdArray<double> xHist;
+    nc::NdArray<double> uHist;
+    nc::NdArray<double> tHist;
 
     Environment(Dynamics dyn, Controller contr, Observer obsv) {
         /*
@@ -49,15 +50,15 @@ class Environment {
         controller = contr;
         observer = obsv; 
 
-        //set 
+        //set environment parameters
         iter = 0; //number of iterations
         t = 0; //time in seconds 
         done = false; //bool is true or false variable 
 
         //set system state
-        x = 0;//dynamics.get_state(); //actual state of the system (arrays should be set as double)
-        x0 = dynamics.get_state(); //initial condition for system
-        xObsv = 0; //state as read by the observer
+        x = dynamics.get_state(); //actual state of the system (arrays should be set as double)
+        x0 = x; //initial condition for system
+        xObsv = nc::zeros<double>(dynamics.stateDimn, 1); //state as read by the observer
         ptCloud = 0; //point cloud state as read by vision
     
         //set simulation parameters
@@ -67,9 +68,9 @@ class Environment {
         totalSimTime = 12; //total simulation time in s
     
         //set history arrays
-        xHist = 0;
-        uHist = 0; //np.zeros((self.dynamics.inputDimn, self.TOTAL_SIM_TIME*self.CONTROL_FREQ))
-        tHist = 0; //np.zeros((1, self.TOTAL_SIM_TIME*self.CONTROL_FREQ)
+        xHist = nc::zeros<double>(dynamics.stateDimn, totalSimTime*controlFreq+1);
+        uHist = nc::zeros<double>(dynamics.inputDimn, totalSimTime*controlFreq+1);
+        tHist = nc::zeros<double>(1, totalSimTime*controlFreq+1);
     }
 
     //Declare our class methods

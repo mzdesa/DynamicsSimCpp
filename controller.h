@@ -45,37 +45,7 @@ class Controller {
     }
 
     //Declare our class methods
-    double evalInput(double t);
-    double getInput();
+    nc::NdArray<double> eval_input(double t);
+    nc::NdArray<double> get_input();
 
-} 
-
-
-    
-    /*
-class Controller:
-    def __init__(self, observer, lyapunov = None, trajectory = None, obstacleQueue = None, uBounds = None):
-        """
-        Skeleton class for feedback controllers
-        Args:
-            dynamics (Dynamics): system Dynamics object
-            observer (Observer): state observer object
-            lyapunov (LyapunovBarrier): lyapunov functions, LyapunovBarrier object
-            trajectory (Trajectory): trajectory for the controller to track (could just be a constant point!)
-            obstacleQueue (ObstacleQueue): ObstacleQueue object, stores all barriers for the system to avoid
-            uBounds ((Dynamics.inputDimn x 2) numpy array): minimum and maximum input values to the system
-        """
-        #store input parameters
-        self.observer = observer
-        self.lyapunov = lyapunov
-        self.trajectory = trajectory
-        self.obstacleQueue = obstacleQueue
-        self.uBounds = uBounds
-        
-        #store input
-        self._u = None
-    
-
-
-
-*/
+};

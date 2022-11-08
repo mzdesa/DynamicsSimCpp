@@ -1,14 +1,16 @@
 #include <iostream>
 using namespace std;
+#include <NumCpp.hpp>
+
 
 class Trajectory {
   public:
-    double x0;
-    double xF;
+    nc::NdArray<double> x0;
+    nc::NdArray<double> xF;
     int spatialDimn;
     double T;
     
-    Trajectory(double x_0, double x_f, double spatial_dimn, double period) {
+    Trajectory(nc::NdArray<double> x_0, nc::NdArray<double> x_f, double spatial_dimn, double period) {
         x0 = x_0;
         xF = x_f;
         spatialDimn = spatial_dimn;
@@ -16,8 +18,8 @@ class Trajectory {
     }
 
     //define funcs
-    double pos(double t);
-    double vel(double t);
-    double accel(double t);
-    double getState(double t);
+    nc::NdArray<double> pos(double t);
+    nc::NdArray<double> vel(double t);
+    nc::NdArray<double> accel(double t);
+    nc::NdArray<double> getState(double t);
 };
